@@ -20,5 +20,15 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void SetSubmitDateInUtc_BeforeWorkingHours_ThrowsException()
+        {
+            var bugFix = new BugFix();
+
+            var timestamp = new DateTime(2018, 5, 28, 8, 0, 0);
+
+            Assert.Throws<OutOfWorkingHoursException>(() => bugFix.SetSubmitDateInUtc(timestamp));
+        }
     }
 }

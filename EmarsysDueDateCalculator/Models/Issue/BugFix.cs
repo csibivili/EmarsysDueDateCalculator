@@ -21,6 +21,10 @@ namespace EmarsysDueDateCalculator.Models.Issue
 
         public void SetSubmitDateInUtc(DateTime timestamp)
         {
+            if (timestamp.Hour < 9 || timestamp.Hour > 17) //TODO: refactor to a private method
+            {
+                throw new OutOfWorkingHoursException();
+            }
             _submitDate = timestamp;
         }
 
