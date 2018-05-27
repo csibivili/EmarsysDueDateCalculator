@@ -26,7 +26,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             _workTimeValidator = workTimeValidator ?? throw new ArgumentNullException();
         }
 
-        //TODO: workTimeValidator implementation should come from DI container
+        //TODO: workTimeValidator implementation should come from DI container (singleton)
         public static ISubmitDateHolder BugFix() => new BugFixBuilder(new DefaultWorkTimeValidator());
 
         public IDedicatedTimeHolder WithSubmitDateInUtc(DateTime timestamp)
@@ -39,11 +39,11 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IDedicatedTimeHolder WithSubmitDateInUtcWithTimeZone(DateTime timestamp, TimeZoneInfo timeZoneInfo)
+        public IDedicatedTimeHolder WithSubmitDateInLocalTimeWithTimeZone(DateTime timestamp, TimeZoneInfo timeZoneInfo)
         {
-            var timestampInUtc = TimeZoneInfo.ConvertTimeToUtc(timestamp, timeZoneInfo);
+            _workTimeValidator.CheckIfOutOfWorkingHours(timestamp);
 
-            _workTimeValidator.CheckIfOutOfWorkingHours(timestampInUtc);
+            var timestampInUtc = TimeZoneInfo.ConvertTimeToUtc(timestamp, timeZoneInfo);
 
             return new BugFixBuilder
             {

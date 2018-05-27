@@ -62,5 +62,22 @@ namespace EmarsysDueDateCalculator.Tests
                 .WithDedicatedTimeInHours(4)
                 .Build());
         }
+
+        [Fact]
+        public void SetSubmitDateInLocalTimeWithTimeZone_DuringWorkingHours_OK()
+        {
+            var timestamp = new DateTime(2018, 5, 28, 16, 0, 0);
+            var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+            var bugFix = BugFixBuilder.BugFix()
+                .WithSubmitDateInLocalTimeWithTimeZone(timestamp, easternZone)
+                .WithDedicatedTimeInHours(4)
+                .Build();
+
+            var expected = timestamp - easternZone.GetUtcOffset(timestamp);
+            var actual = bugFix.GetSubmitDateInUtc();
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
