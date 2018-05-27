@@ -10,7 +10,7 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
             var submitDate = issue.GetSubmitDateInUtc();
             var dedicatedTimeInHours = issue.GetDedicatedTimeInHours();
 
-            var offset = new TimeSpan(0,dedicatedTimeInHours,0);
+            var offset = new TimeSpan(dedicatedTimeInHours,0,0);
 
             return submitDate + offset;
         }
