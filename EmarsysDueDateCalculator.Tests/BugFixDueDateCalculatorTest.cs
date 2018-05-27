@@ -77,5 +77,38 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected,actual);
         }
+
+        [Fact]
+        public void CalculateDueDate_9AmSubmit2Weeks3DaysDedicatedTime_2WeeksAnd3DaysLater9Am()
+        {
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(new DateTime(2018, 5, 28, 9, 0, 0))
+                .WithDedicatedTimeInWeeks(2)
+                .WithDedicatedTimeInDays(3)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018,6,14,9,0,0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected,actual);
+        }
+
+        [Fact]
+        public void CalculateDueDate_9AmSubmit2Weeks3Days4HoursDedicatedTime_2Weeks3DaysLater1Pm()
+        {
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(new DateTime(2018, 5, 28, 9, 0, 0))
+                .WithDedicatedTimeInWeeks(2)
+                .WithDedicatedTimeInDays(3)
+                .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018,6,14,13,0,0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected,actual);
+        }
     }
 }
