@@ -32,7 +32,7 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
             return submitDate + offset;
         }
 
-        private static DateTime GetNextWorkMorningOf(DateTime submitDate)
+        private DateTime GetNextWorkMorningOf(DateTime submitDate)
         {
             DateTime dateOfNextWorkDay;
             int days;
@@ -53,12 +53,12 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
             return SetClockToWorkStart(dateOfNextWorkDay);
         }
 
-        private static DateTime SetClockToWorkStart(DateTime timestamp)
+        private DateTime SetClockToWorkStart(DateTime timestamp)
         {
             return new DateTime(timestamp.Year,
                 timestamp.Month,
                 timestamp.Day,
-                9, 0, 0);              
+                _workTimeValidator.WorkStartsAt, 0, 0);              
         }
 
         private static DateTime OffsetDateByDays(DateTime submitDate, int daysOffset)
@@ -66,9 +66,10 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
             return submitDate + new TimeSpan(ActualHoursPerDay * daysOffset, 0, 0);
         }
 
-        private static bool IsAfterWork(DateTime submitDate)
+        private bool IsAfterWork(DateTime submitDate)
         {
-            return submitDate.Hour >= 17 && submitDate.Hour <= 23;
+            return submitDate.Hour >= _workTimeValidator.WorkEndsAt 
+                   && submitDate.Hour < ActualHoursPerDay;
         }
 
         private static TimeSpan DedicatedTimeInHoursToRealTimeOffset(int dedicatedTimeInHours)

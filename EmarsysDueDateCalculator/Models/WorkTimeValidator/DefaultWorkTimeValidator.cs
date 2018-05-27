@@ -5,8 +5,8 @@ namespace EmarsysDueDateCalculator.Models.WorkTimeValidator
 {
     public class DefaultWorkTimeValidator : IWorkTimeValidator
     {
-        private const int WorkStartsAt = 9;
-        private const int WorkEndsAt = 17;
+        public int WorkStartsAt { get; } = 9;
+        public int WorkEndsAt { get; } = 17;
         public void CheckIfOutOfWorkingHours(DateTime timestamp)
         {
             if (IsOutOfWorkingHours(timestamp))
