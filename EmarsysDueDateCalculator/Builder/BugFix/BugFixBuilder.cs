@@ -16,7 +16,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
 
         public IDedicatedTimeHolder WithSubmitDateInUtc(DateTime timestamp)
         {
-            if (timestamp.Hour < 9 || timestamp.Hour > 17) //TODO: refactor to a private method
+            if (IsOutOfWorkingHours(timestamp))
             {
                 throw new OutOfWorkingHoursException();
             }
@@ -64,6 +64,11 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
         public IIssue Build()
         {
             return new Models.Issue.BugFix(_submitDate, _dedicatedTimeInHours);
+        }
+
+        private bool IsOutOfWorkingHours(DateTime timestamp)
+        {
+            return timestamp.Hour < 9 || timestamp.Hour > 17;
         }
     }
 }
