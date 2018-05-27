@@ -17,14 +17,17 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
 
         private readonly IWorkTimeValidator _workTimeValidator;
 
-        public BugFixBuilder()
+        private BugFixBuilder()
         {
 
         }
-        public BugFixBuilder(IWorkTimeValidator workTimeValidator)
+        private BugFixBuilder(IWorkTimeValidator workTimeValidator)
         {
             _workTimeValidator = workTimeValidator ?? throw new ArgumentNullException();
         }
+
+        //TODO: workTimeValidator implementation should come from DI container
+        public static ISubmitDateHolder BugFix() => new BugFixBuilder(new DefaultWorkTimeValidator());
 
         public IDedicatedTimeHolder WithSubmitDateInUtc(DateTime timestamp)
         {

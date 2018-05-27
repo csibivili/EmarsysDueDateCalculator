@@ -9,10 +9,9 @@ namespace EmarsysDueDateCalculator.Tests
 {
     public class BugFixTest
     {
-        private readonly BugFixBuilder _bugFixBuilder;
         public BugFixTest()
         {
-            _bugFixBuilder = new BugFixBuilder(new DefaultWorkTimeValidator());
+            
         }
 
         [Fact]
@@ -20,7 +19,7 @@ namespace EmarsysDueDateCalculator.Tests
         {
             var timestamp = new DateTime(2018, 5, 28, 10, 0, 0);
 
-            var bugFix = _bugFixBuilder
+            var bugFix = BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
                 .Build();
@@ -36,7 +35,7 @@ namespace EmarsysDueDateCalculator.Tests
         {
             var timestamp = new DateTime(2018, 5, 28, 8, 59, 59);
 
-            Assert.Throws<OutOfWorkingHoursException>(() => _bugFixBuilder
+            Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
                 .Build());
@@ -47,7 +46,7 @@ namespace EmarsysDueDateCalculator.Tests
         {
             var timestamp = new DateTime(2018, 5, 28, 17, 0, 1);
 
-            Assert.Throws<OutOfWorkingHoursException>(() => _bugFixBuilder
+            Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
                 .Build());
@@ -58,7 +57,7 @@ namespace EmarsysDueDateCalculator.Tests
         {
             var timestamp = new DateTime(2018, 5, 27, 10, 33, 1);
 
-            Assert.Throws<OutOfWorkingHoursException>(() => _bugFixBuilder
+            Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
                 .Build());
