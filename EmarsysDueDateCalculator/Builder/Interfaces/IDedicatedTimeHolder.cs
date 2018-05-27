@@ -7,6 +7,6 @@ namespace EmarsysDueDateCalculator.Builder.Interfaces
         IDedicatedTimeHolder WithDedicatedTimeInHours(int hours);
         IDedicatedTimeHolder WithDedicatedTimeInDays(int days);
         IDedicatedTimeHolder WithDedicatedTimeInWeeks(int weeks);
-        IIssueBuilder AddNoMoreTime();
+        IBugFixBuilder AddNoMoreTime();
     }
 }

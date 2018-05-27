@@ -3,8 +3,8 @@ using EmarsysDueDateCalculator.Models.Issue;
 
 namespace EmarsysDueDateCalculator.Services.DueDateCalculator
 {
-    public interface IIssueDueDateCalculator
+    public interface IIssueDueDateCalculator<T> where T : IIssue
     {
-        DateTime CalculateDueDate(IIssue issue);
+        DateTime CalculateDueDate(T issue);
     }
 }

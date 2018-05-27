@@ -1,13 +1,12 @@
-﻿using System;
-using EmarsysDueDateCalculator.Builder.Exceptions;
+﻿using EmarsysDueDateCalculator.Builder.Exceptions;
 using EmarsysDueDateCalculator.Builder.Interfaces;
-using EmarsysDueDateCalculator.Models.Issue;
 using EmarsysDueDateCalculator.Models.WorkTimeValidator;
+using System;
 
 namespace EmarsysDueDateCalculator.Builder.BugFix
 {
     public class BugFixBuilder : 
-        IIssueBuilder, ISubmitDateHolder, IDedicatedTimeHolder
+        IBugFixBuilder, ISubmitDateHolder, IDedicatedTimeHolder
     {
         private const int WorkingHours = 8;
         private const int WorkingDays = 5;
@@ -78,7 +77,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IIssueBuilder AddNoMoreTime()
+        public IBugFixBuilder AddNoMoreTime()
         {
             if (_dedicatedTimeInHours == 0)
             {
@@ -87,7 +86,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             return this;
         }
 
-        public IIssue Build()
+        public Models.Issue.BugFix Build()
         {
             return new Models.Issue.BugFix(_submitDate, _dedicatedTimeInHours);
         }
