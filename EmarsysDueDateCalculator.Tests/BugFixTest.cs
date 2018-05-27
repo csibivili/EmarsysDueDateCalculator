@@ -1,4 +1,6 @@
 using System;
+using EmarsysDueDateCalculator.Builder.BugFix;
+using EmarsysDueDateCalculator.Builder.Exceptions;
 using EmarsysDueDateCalculator.Models.Issue;
 using Xunit;
 
@@ -9,11 +11,12 @@ namespace EmarsysDueDateCalculator.Tests
         [Fact]
         public void SetSubmitDateInUtc_DuringWorkingHours_OK()
         {
-            var bugFix = new BugFix();
+            var timestamp = new DateTime(2018, 5, 28, 10, 0, 0);
 
-            var timestamp = new DateTime(2018,5,28,10,0,0);
-
-            bugFix.SetSubmitDateInUtc(timestamp);
+            var bugFix = new BugFixBuilder()
+                .WithSubmitDateInUtc(timestamp)
+                .WithDedicatedTimeInHours(4)
+                .Build();
 
             var expected = timestamp;
             var actual = bugFix.GetSubmitDateInUtc();
@@ -24,11 +27,12 @@ namespace EmarsysDueDateCalculator.Tests
         [Fact]
         public void SetSubmitDateInUtc_BeforeWorkingHours_ThrowsException()
         {
-            var bugFix = new BugFix();
-
             var timestamp = new DateTime(2018, 5, 28, 8, 0, 0);
 
-            Assert.Throws<OutOfWorkingHoursException>(() => bugFix.SetSubmitDateInUtc(timestamp));
+            Assert.Throws<OutOfWorkingHoursException>(() => new BugFixBuilder()
+                .WithSubmitDateInUtc(timestamp)
+                .WithDedicatedTimeInHours(4)
+                .Build());
         }
     }
 }

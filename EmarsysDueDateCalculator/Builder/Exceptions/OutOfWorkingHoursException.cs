@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace EmarsysDueDateCalculator.Models.Issue
+namespace EmarsysDueDateCalculator.Builder.Exceptions
 {
     [Serializable]
     public class OutOfWorkingHoursException : Exception

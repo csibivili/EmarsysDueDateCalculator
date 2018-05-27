@@ -6,10 +6,5 @@ namespace EmarsysDueDateCalculator.Models.Issue
     {
         DateTime GetSubmitDateInUtc();
         int GetDedicatedTimeInHours();
-        void SetSubmitDateInUtc(DateTime timestamp);
-        void SetSubmitDateInLocalTime(DateTime timestamp);
-        void SetDedicatedTimeInHours(int hours);
-        void SetDedicatedTimeInDays(int days);
-        void SetDeicatedTimeInWeeks(int weeks);
     }
 }
