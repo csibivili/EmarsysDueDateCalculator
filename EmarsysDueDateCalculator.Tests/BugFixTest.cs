@@ -7,11 +7,6 @@ namespace EmarsysDueDateCalculator.Tests
 {
     public class BugFixTest
     {
-        public BugFixTest()
-        {
-            
-        }
-
         [Fact]
         public void SetSubmitDateInUtc_DuringWorkingHours_OK()
         {
