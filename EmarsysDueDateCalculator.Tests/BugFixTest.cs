@@ -84,5 +84,24 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void SetDedicatedTime_OneWeekTwoDaysThreeHours_59()
+        {
+            var timestamp = new DateTime(2018, 5, 28, 16, 0, 0);
+
+            var bugFix = BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(timestamp)
+                .WithDedicatedTimeInHours(3)
+                .WithDedicatedTimeInDays(2)
+                .WithDedicatedTimeInWeeks(1)
+                .AddNoMoreTime()
+                .Build();
+
+            int expected = 59;
+            int actual = bugFix.GetDedicatedTimeInHours();
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
