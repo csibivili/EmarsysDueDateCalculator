@@ -2,6 +2,7 @@
 using EmarsysDueDateCalculator.Builder.Exceptions;
 using EmarsysDueDateCalculator.Builder.Interfaces;
 using EmarsysDueDateCalculator.Models.Issue;
+using EmarsysDueDateCalculator.Models.WorkTimeValidator;
 
 namespace EmarsysDueDateCalculator.Builder.BugFix
 {
@@ -10,15 +11,24 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
     {
         private const int WorkingHours = 8;
         private const int WorkingDays = 5;
-        private const int WorkStartsAt = 9;
-        private const int WorkEndsAt = 17;
 
         private DateTime _submitDate;
         private int _dedicatedTimeInHours;
 
+        private readonly IWorkTimeValidator _workTimeValidator;
+
+        public BugFixBuilder()
+        {
+
+        }
+        public BugFixBuilder(IWorkTimeValidator workTimeValidator)
+        {
+            _workTimeValidator = workTimeValidator ?? throw new ArgumentNullException();
+        }
+
         public IDedicatedTimeHolder WithSubmitDateInUtc(DateTime timestamp)
         {
-            CheckIfOutOfWorkingHours(timestamp);
+            _workTimeValidator.CheckIfOutOfWorkingHours(timestamp);
 
             return new BugFixBuilder
             { 
@@ -26,11 +36,11 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IDedicatedTimeHolder WithSubmitDateInUtcAndOffset(DateTime timestamp, TimeZoneInfo timeZoneInfo)
+        public IDedicatedTimeHolder WithSubmitDateInUtcWithTimeZone(DateTime timestamp, TimeZoneInfo timeZoneInfo)
         {
             var timestampInUtc = TimeZoneInfo.ConvertTimeToUtc(timestamp, timeZoneInfo);
 
-            CheckIfOutOfWorkingHours(timestampInUtc);
+            _workTimeValidator.CheckIfOutOfWorkingHours(timestampInUtc);
 
             return new BugFixBuilder
             {
@@ -67,22 +77,6 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
         public IIssue Build()
         {
             return new Models.Issue.BugFix(_submitDate, _dedicatedTimeInHours);
-        }
-
-        private static void CheckIfOutOfWorkingHours(DateTime timestamp)
-        {
-            if (IsOutOfWorkingHours(timestamp))
-            {
-                throw new OutOfWorkingHoursException();
-            }
-        }
-
-        private static bool IsOutOfWorkingHours(DateTime timestamp)
-        {
-            return timestamp.Hour < WorkStartsAt
-                   || timestamp.Hour >= WorkEndsAt
-                   || timestamp.DayOfWeek == DayOfWeek.Saturday
-                   || timestamp.DayOfWeek == DayOfWeek.Sunday;
         }
     }
 }
