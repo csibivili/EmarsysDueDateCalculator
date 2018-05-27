@@ -14,3 +14,7 @@ I left some comment to remind me of
 - implementing a DI container,
 - decouple BugFixBuilder from DefaultWorkTimeValidator,
 - handle the lifetime of objects.
+
+## +1
+Something went wrong on the company website:
+https://www.emarsys.com/en/technology-partners/
