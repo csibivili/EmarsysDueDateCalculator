@@ -12,11 +12,12 @@ namespace EmarsysDueDateCalculator.Tests
 
         public BugFixDueDateCalculatorTest()
         {
+            //TODO: register in container
             _dueDateCalculator = new BugFixDueDateCalculator();
         }
 
         [Fact]
-        public void CaculateDueDate_9AmSubmit4HoursDedicatedTime_1Pm()
+        public void CaculateDueDate_9AmSubmit4HoursDedicatedTime_SameDay1Pm()
         {
             var bugfix = BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(new DateTime(2018, 5, 28, 9, 0, 0))
@@ -31,7 +32,7 @@ namespace EmarsysDueDateCalculator.Tests
         }
 
         [Fact]
-        public void CalculateDueDate_8PmSubmit4HoursDedicatedTime_NextDay1Pm()
+        public void CalculateDueDate_8PmSubmit4HoursDedicatedTime_NextWorkingDay1Pm()
         {
 
             var bugfix = BugFixBuilder.BugFix()
@@ -45,6 +46,21 @@ namespace EmarsysDueDateCalculator.Tests
             var actual = _dueDateCalculator.CalculateDueDate(bugfix);
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void CalculateDueDate_9AmSubmit1DayDedicatedTime_NextWorkingDay9Am()
+        {
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(new DateTime(2018, 5, 28, 9, 0, 0))
+                .WithDedicatedTimeInDays(1)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018,5,29,9,0,0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected,actual);
         }
     }
 }

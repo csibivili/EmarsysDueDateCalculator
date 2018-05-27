@@ -15,7 +15,7 @@ namespace EmarsysDueDateCalculator.Models.WorkTimeValidator
             }
         }
 
-        private static bool IsOutOfWorkingHours(DateTime timestamp)
+        public bool IsOutOfWorkingHours(DateTime timestamp)
         {
             return timestamp.Hour < WorkStartsAt
                    || timestamp.Hour >= WorkEndsAt
