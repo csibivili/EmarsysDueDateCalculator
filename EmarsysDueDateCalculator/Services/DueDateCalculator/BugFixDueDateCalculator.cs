@@ -20,7 +20,7 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
             var dedicatedTimeInHours = issue.GetDedicatedTimeInHours();
 
             var offsetWorkingWeek = dedicatedTimeInHours / 40;
-            var offsetWorkingDay = dedicatedTimeInHours / 8;
+            var offsetWorkingDay = dedicatedTimeInHours % 40 / 8;
             var offsetWorkingHour = dedicatedTimeInHours % 8;
 
             var offsetActualHours = offsetWorkingWeek * 168 

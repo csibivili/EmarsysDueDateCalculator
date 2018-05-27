@@ -62,5 +62,20 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected,actual);
         }
+
+        [Fact]
+        public void CalculateDueDate_9AmSubmit1WeekDedicatedTime_NextWeekSameDay9Am()
+        {
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(new DateTime(2018, 5, 28, 9, 0, 0))
+                .WithDedicatedTimeInWeeks(1)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018,6,4,9,0,0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected,actual);
+        }
     }
 }
