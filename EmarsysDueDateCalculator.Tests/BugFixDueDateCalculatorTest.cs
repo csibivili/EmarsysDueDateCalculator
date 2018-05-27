@@ -29,5 +29,22 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected,actual);
         }
+
+        [Fact]
+        public void CalculateDueDate_8PmSubmit4HoursDedicatedTime_NextDay1Pm()
+        {
+
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInLocalTimeWithTimeZone(new DateTime(2018, 5, 28, 16, 0, 0),
+                    TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"))
+                .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018, 5, 29, 13, 0, 0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

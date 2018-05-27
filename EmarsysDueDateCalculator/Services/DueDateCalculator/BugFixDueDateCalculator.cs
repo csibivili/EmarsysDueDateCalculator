@@ -12,7 +12,21 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
 
             var offset = new TimeSpan(dedicatedTimeInHours,0,0);
 
-            return submitDate + offset;
+            var calculated = submitDate + offset;
+
+            if (calculated.Hour >= 17 || calculated.Day > submitDate.Day)
+            {
+                return new DateTime(calculated.Year, 
+                    calculated.Month, 
+                    submitDate.Day + 1,
+                    9 + offset.Hours,
+                    0 + calculated.Minute,
+                    0 + calculated.Second);
+            }
+            else
+            {
+                return submitDate + offset;
+            }
         }
     }
 }
