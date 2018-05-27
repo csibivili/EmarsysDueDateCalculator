@@ -51,7 +51,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IIssueBuilder WithDedicatedTimeInHours(int hours)
+        public IDedicatedTimeHolder WithDedicatedTimeInHours(int hours)
         {
             return new BugFixBuilder
             {
@@ -60,7 +60,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IIssueBuilder WithDedicatedTimeInDays(int days)
+        public IDedicatedTimeHolder WithDedicatedTimeInDays(int days)
         {
             return new BugFixBuilder
             {
@@ -69,7 +69,7 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IIssueBuilder WithDedicatedTimeInWeeks(int weeks)
+        public IDedicatedTimeHolder WithDedicatedTimeInWeeks(int weeks)
         {
             return new BugFixBuilder
             {
@@ -77,6 +77,12 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
                 _dedicatedTimeInHours = _dedicatedTimeInHours + (weeks* WorkingHours * WorkingDays)
             };
         }
+
+        public IIssueBuilder AddNoMoreTime()
+        {
+            return this;
+        }
+
         public IIssue Build()
         {
             return new Models.Issue.BugFix(_submitDate, _dedicatedTimeInHours);

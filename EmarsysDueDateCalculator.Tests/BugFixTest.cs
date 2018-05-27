@@ -22,6 +22,7 @@ namespace EmarsysDueDateCalculator.Tests
             var bugFix = BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
                 .Build();
 
             var expected = timestamp;
@@ -38,6 +39,7 @@ namespace EmarsysDueDateCalculator.Tests
             Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
                 .Build());
         }
 
@@ -49,6 +51,7 @@ namespace EmarsysDueDateCalculator.Tests
             Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
                 .Build());
         }
 
@@ -60,6 +63,7 @@ namespace EmarsysDueDateCalculator.Tests
             Assert.Throws<OutOfWorkingHoursException>(() => BugFixBuilder.BugFix()
                 .WithSubmitDateInUtc(timestamp)
                 .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
                 .Build());
         }
 
@@ -72,6 +76,7 @@ namespace EmarsysDueDateCalculator.Tests
             var bugFix = BugFixBuilder.BugFix()
                 .WithSubmitDateInLocalTimeWithTimeZone(timestamp, easternZone)
                 .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
                 .Build();
 
             var expected = timestamp - easternZone.GetUtcOffset(timestamp);
