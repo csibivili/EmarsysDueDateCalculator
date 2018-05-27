@@ -1,8 +1,6 @@
 using System;
 using EmarsysDueDateCalculator.Builder.BugFix;
 using EmarsysDueDateCalculator.Builder.Exceptions;
-using EmarsysDueDateCalculator.Models.Issue;
-using EmarsysDueDateCalculator.Models.WorkTimeValidator;
 using Xunit;
 
 namespace EmarsysDueDateCalculator.Tests

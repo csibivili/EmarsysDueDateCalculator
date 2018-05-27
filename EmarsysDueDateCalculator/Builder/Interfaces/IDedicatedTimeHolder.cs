@@ -1,6 +1,4 @@
-﻿using EmarsysDueDateCalculator.Builder.BugFix;
-
-namespace EmarsysDueDateCalculator.Builder.Interfaces
+﻿namespace EmarsysDueDateCalculator.Builder.Interfaces
 {
     public interface IDedicatedTimeHolder
     {
