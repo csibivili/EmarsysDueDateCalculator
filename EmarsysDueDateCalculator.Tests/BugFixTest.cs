@@ -122,5 +122,19 @@ namespace EmarsysDueDateCalculator.Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void SetDedicatedTime_TimeIsZero_ThrowsException()
+        {
+            var timestamp = new DateTime(2018, 5, 28, 16, 0, 0);
+
+            Assert.Throws<ZeroTimeDedicatedException>(() => BugFixBuilder.BugFix()
+                .WithSubmitDateInUtc(timestamp)
+                .WithDedicatedTimeInHours(0)
+                .WithDedicatedTimeInDays(0)
+                .WithDedicatedTimeInWeeks(0)
+                .AddNoMoreTime()
+                .Build());
+        }
     }
 }

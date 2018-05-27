@@ -80,6 +80,10 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
 
         public IIssueBuilder AddNoMoreTime()
         {
+            if (_dedicatedTimeInHours == 0)
+            {
+                throw new ZeroTimeDedicatedException();
+            }
             return this;
         }
 
