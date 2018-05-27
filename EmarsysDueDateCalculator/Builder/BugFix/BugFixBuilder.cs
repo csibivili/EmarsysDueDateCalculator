@@ -8,8 +8,8 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
     public class BugFixBuilder : 
         IBugFixBuilder, ISubmitDateHolder, IDedicatedTimeHolder
     {
-        private const int WorkingHours = 8;
-        private const int WorkingDays = 5;
+        public const int WorkingHours = 8;
+        public const int WorkingDays = 5;
 
         private DateTime _submitDate;
         private int _dedicatedTimeInHours;
