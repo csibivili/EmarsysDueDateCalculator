@@ -10,16 +10,15 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
     {
         private const int WorkingHours = 8;
         private const int WorkingDays = 5;
+        private const int WorkStartsAt = 9;
+        private const int WorkEndsAt = 17;
 
         private DateTime _submitDate;
         private int _dedicatedTimeInHours;
 
         public IDedicatedTimeHolder WithSubmitDateInUtc(DateTime timestamp)
         {
-            if (IsOutOfWorkingHours(timestamp))
-            {
-                throw new OutOfWorkingHoursException();
-            }
+            CheckIfOutOfWorkingHours(timestamp);
 
             return new BugFixBuilder
             { 
@@ -27,11 +26,15 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             };
         }
 
-        public IDedicatedTimeHolder WithSubmitDateInLocalTime(DateTime timestamp)
+        public IDedicatedTimeHolder WithSubmitDateInUtcAndOffset(DateTime timestamp, TimeZoneInfo timeZoneInfo)
         {
+            var timestampInUtc = TimeZoneInfo.ConvertTimeToUtc(timestamp, timeZoneInfo);
+
+            CheckIfOutOfWorkingHours(timestampInUtc);
+
             return new BugFixBuilder
             {
-                _submitDate = timestamp.ToUniversalTime()
+                _submitDate = timestampInUtc
             };
         }
 
@@ -66,9 +69,20 @@ namespace EmarsysDueDateCalculator.Builder.BugFix
             return new Models.Issue.BugFix(_submitDate, _dedicatedTimeInHours);
         }
 
-        private bool IsOutOfWorkingHours(DateTime timestamp)
+        private static void CheckIfOutOfWorkingHours(DateTime timestamp)
         {
-            return timestamp.Hour < 9 || timestamp.Hour > 17;
+            if (IsOutOfWorkingHours(timestamp))
+            {
+                throw new OutOfWorkingHoursException();
+            }
+        }
+
+        private static bool IsOutOfWorkingHours(DateTime timestamp)
+        {
+            return timestamp.Hour < WorkStartsAt
+                   || timestamp.Hour >= WorkEndsAt
+                   || timestamp.DayOfWeek == DayOfWeek.Saturday
+                   || timestamp.DayOfWeek == DayOfWeek.Sunday;
         }
     }
 }

@@ -45,5 +45,16 @@ namespace EmarsysDueDateCalculator.Tests
                 .WithDedicatedTimeInHours(4)
                 .Build());
         }
+
+        [Fact]
+        public void SetSubmitDateInUtc_OnWeekend_ThrowsException()
+        {
+            var timestamp = new DateTime(2018, 5, 27, 10, 33, 1);
+
+            Assert.Throws<OutOfWorkingHoursException>(() => new BugFixBuilder()
+                .WithSubmitDateInUtc(timestamp)
+                .WithDedicatedTimeInHours(4)
+                .Build());
+        }
     }
 }
