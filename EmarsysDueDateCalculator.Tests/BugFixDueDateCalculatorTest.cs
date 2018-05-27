@@ -34,7 +34,6 @@ namespace EmarsysDueDateCalculator.Tests
         [Fact]
         public void CalculateDueDate_8PmSubmit4HoursDedicatedTime_NextWorkingDay1Pm()
         {
-
             var bugfix = BugFixBuilder.BugFix()
                 .WithSubmitDateInLocalTimeWithTimeZone(new DateTime(2018, 5, 28, 16, 0, 0),
                     TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"))
@@ -109,6 +108,23 @@ namespace EmarsysDueDateCalculator.Tests
             var actual = _dueDateCalculator.CalculateDueDate(bugfix);
 
             Assert.Equal(expected,actual);
+        }
+        [Fact]
+        public void CalculateDueDate_9AmAlaskanTimeSubmit2Weeks3Days4HoursDedicatedTime_2Weeks3DaysLater1Pm()
+        {
+            var bugfix = BugFixBuilder.BugFix()
+                .WithSubmitDateInLocalTimeWithTimeZone(new DateTime(2018, 5, 28, 16, 0, 0), 
+                    TimeZoneInfo.FindSystemTimeZoneById("Alaskan Standard Time"))
+                .WithDedicatedTimeInWeeks(2)
+                .WithDedicatedTimeInDays(3)
+                .WithDedicatedTimeInHours(4)
+                .AddNoMoreTime()
+                .Build();
+
+            var expected = new DateTime(2018, 6, 15, 13, 0, 0);
+            var actual = _dueDateCalculator.CalculateDueDate(bugfix);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

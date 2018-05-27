@@ -26,35 +26,49 @@ namespace EmarsysDueDateCalculator.Services.DueDateCalculator
 
             if (_workTimeValidator.IsOutOfWorkingHours(submitDate))
             {
-                return GetNextWorkDayOf(submitDate) + offset;
+                return GetNextWorkMorningOf(submitDate) + offset;
             }
 
             return submitDate + offset;
         }
 
-        private static DateTime GetNextWorkDayOf(DateTime submitDate)
+        private static DateTime GetNextWorkMorningOf(DateTime submitDate)
         {
+            DateTime dateOfNextWorkDay;
+            int days;
+
             switch (submitDate.DayOfWeek)
             {
                 case DayOfWeek.Friday:
-                    var threeDaysLater = submitDate + new TimeSpan(ActualHoursPerDay * 3, 0, 0);
-                    return new DateTime(threeDaysLater.Year,
-                        threeDaysLater.Month,
-                        threeDaysLater.Day,
-                        9,0,0);
+                    days = IsAfterWork(submitDate) ? 3 : 2;
+                    break;
                 case DayOfWeek.Saturday:
-                    var twoDaysLater = submitDate + new TimeSpan(ActualHoursPerDay * 2, 0, 0);
-                    return new DateTime(twoDaysLater.Year,
-                        twoDaysLater.Month,
-                        twoDaysLater.Day,
-                        9,0,0);
+                    days = IsAfterWork(submitDate) ? 2 : 1;
+                    break;
                 default:
-                    var oneDayLater = submitDate + new TimeSpan(ActualHoursPerDay, 0, 0);
-                    return new DateTime(oneDayLater.Year,
-                        oneDayLater.Month,
-                        oneDayLater.Day,
-                        9,0,0);
+                    days = IsAfterWork(submitDate) ? 1 : 0;
+                    break;
             }
+            dateOfNextWorkDay = OffsetDateByDays(submitDate, days);
+            return SetClockToWorkStart(dateOfNextWorkDay);
+        }
+
+        private static DateTime SetClockToWorkStart(DateTime timestamp)
+        {
+            return new DateTime(timestamp.Year,
+                timestamp.Month,
+                timestamp.Day,
+                9, 0, 0);              
+        }
+
+        private static DateTime OffsetDateByDays(DateTime submitDate, int daysOffset)
+        {
+            return submitDate + new TimeSpan(ActualHoursPerDay * daysOffset, 0, 0);
+        }
+
+        private static bool IsAfterWork(DateTime submitDate)
+        {
+            return submitDate.Hour >= 17 && submitDate.Hour <= 23;
         }
 
         private static TimeSpan DedicatedTimeInHoursToRealTimeOffset(int dedicatedTimeInHours)
