@@ -22,6 +22,7 @@ I left some comment to remind me of
 - It would improve readability and reusability.
 - All const must be placed in DefaultWorkTimeValidator.
 - WorkEndsAt could be calculated from WorkStartsAt and WorkingHours.
+- switch-case into lambda expression
 
 ## +1
 Something went wrong on the company website:
