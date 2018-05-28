@@ -15,6 +15,14 @@ I left some comment to remind me of
 - decouple BugFixBuilder from DefaultWorkTimeValidator,
 - handle the lifetime of objects.
 
+## What I would refactor
+- I checked my code again an I found some opportunity to refactor...
+- DefaultWorkTimeValidator.IsOutOfWorkingHours method can be divided into smaller parts like IsAfterWorkingHours / IsBeforeWorkingHours / IsWeekend
+- I.e. IsAfterWorkingHours already written in BugFixDueDateCalculator..
+- It would improve readability and reusability.
+- All const must be placed in DefaultWorkTimeValidator.
+- WorkEndsAt could be calculated from WorkStartsAt and WorkingHours.
+
 ## +1
 Something went wrong on the company website:
 https://www.emarsys.com/en/technology-partners/
